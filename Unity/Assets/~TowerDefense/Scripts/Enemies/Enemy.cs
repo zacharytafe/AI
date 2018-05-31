@@ -1,12 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace TowerDefense
 {
     public class Enemy : MonoBehaviour
     {
-        public float health = 100f;
+        public float maxHealth = 100f;
+        [Header("UI")]
+        public GameObject healthBarUI;
+        public Vector2 healthBarOffset = new Vector2(0f, 5f);
+
+        private Slider healthSlider;
+        private float health = 100f;
 
         public void DealDamage(float damage)
         {
@@ -23,13 +30,33 @@ namespace TowerDefense
         // Use this for initialization
         void Start()
         {
+            health = maxHealth;
+        }
 
+        Vector3 GetHealthBarPos()
+        {
+            Camera cam = Camera.main;
+            Vector2 position = cam.WorldToScreenPoint(transform.position);
+            return position + healthBarOffset;
         }
 
         // Update is called once per frame
         void Update()
         {
+            if(healthSlider)
+            {
+                // Update it's postion in UI
+                healthSlider.transform.position = GetHealthBarPos();
+            }
+        }
 
+        public void SpawnHealthBar(Transform parent)
+        {
+            // create new health bar at calculated position
+            // and attached to the new parent
+            GameObject clone = Instantiate(healthBarUI, GetHealthBarPos(), Quaternion.identity, parent);
+            // Get the slider component for late use
+            healthSlider = clone.GetComponent<Slider>();
         }
     }
 }

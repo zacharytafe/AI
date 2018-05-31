@@ -3,7 +3,6 @@ using System.Collections;
 
 namespace TowerDefense
 {
-    [AddComponentMenu("Camera-Control/Mouse Orbit with zoom")]
     public class MouseOrbitImproved : MonoBehaviour
     {
 
