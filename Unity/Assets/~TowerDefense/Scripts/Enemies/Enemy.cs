@@ -19,6 +19,12 @@ namespace TowerDefense
         {
             //Deal damage to enemy
             health -= damage;
+            // Update the slider
+            if (healthSlider)
+            {
+                // Converts health to a 0-1 value
+                healthSlider.value = health / maxHealth;
+            }
             //If there is no health
             if(health <= 0)
             {
@@ -31,6 +37,16 @@ namespace TowerDefense
         void Start()
         {
             health = maxHealth;
+        }
+
+        void OnDestroy()
+        {
+            // If there is a health slider created
+            if (healthSlider)
+            {
+                // Destroy it
+                Destroy(healthSlider.gameObject);
+            }
         }
 
         Vector3 GetHealthBarPos()
